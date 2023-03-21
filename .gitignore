@@ -25,3 +25,6 @@ compile_commands.json
 
 .envrc
 .direnv/
+
+pgo-prof/
+

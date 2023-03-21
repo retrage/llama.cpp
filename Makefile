@@ -144,6 +144,19 @@ ifdef LLAMA_GPROF
 	CFLAGS   += -pg
 	CXXFLAGS += -pg
 endif
+ifdef LLAMA_PGO
+	ifneq (,$(findstring clang,$(CCV)))
+		ifdef LLAMA_PGO_DATA
+			CFLAGS   += -fprofile-instr-use=$(LLAMA_PGO_DATA)
+			CXXFLAGS += -fprofile-instr-use=$(LLAMA_PGO_DATA)
+		else
+			CFLAGS 	 += -fprofile-instr-generate
+			CXXFLAGS += -fprofile-instr-generate
+		endif
+	else
+		$(error PGO is supported with clang only)
+	endif
+endif
 ifneq ($(filter aarch64%,$(UNAME_M)),)
 	CFLAGS += -mcpu=native
 	CXXFLAGS += -mcpu=native
